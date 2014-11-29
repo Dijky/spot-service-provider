@@ -16,7 +16,7 @@
 	"require": {
 		"silex/silex": "~1.0",
 		"vlucas/spot2": "~2.0"
-	}
+	},
 	"autoload": {
 		"psr-0": { "Dijky": "src/" }
 	}
