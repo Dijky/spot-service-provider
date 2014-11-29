@@ -45,7 +45,11 @@ The service provider also takes connections already configured for `DoctrineServ
 Notice the closure? This way, the `dbs` service will only be accessed (and initialized) as needed.  
 You can still override or extend it later on in your bootstrap code.
 
-The first connection in `$app['spot.connections']` will be set as default.
+The first connection in `$app['spot.connections']` will be set as default.  
+The default connection can also be set to connection `abc` with
+
+    $app['spot.connections.default'] = 'abc';
+
 
 Services
 -
@@ -58,5 +62,6 @@ Services
 It takes the following configuration values:
 
  - **spot.connections**: Set this to a key-value array (or Pimple container) with connection names as keys and connection strings (DSNs) or instances of `Doctrine\DBAL\Connection` as values.
-
-**Notice:** once the `spot` service is first accessed, changing `spot.config` or `spot.connections` will have no effect on it.
+ - **spot.connections.default** (optional): Set this to the connection name that should be set as default. Unset with `null`.
+ 
+**Notice:** once the `spot` service is first accessed, changing `spot.config`, `spot.connections`, or `spot.connections.default` will have no effect on it.

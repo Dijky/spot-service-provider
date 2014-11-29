@@ -11,6 +11,8 @@ class SpotServiceProvider implements ServiceProviderInterface
 {
 	public function register(Application $app)
 	{
+		$app['spot.connections.default'] = null;
+	
 		$app['spot'] = $app->share(function() use ($app) {
 			return new Spot\Locator($app['spot.config']);
 		});
@@ -24,13 +26,17 @@ class SpotServiceProvider implements ServiceProviderInterface
 			// like the one exposed by DoctrineServiceProvider
 			if($connections instanceof Pimple) {
 				$keys = $connections->keys();
-				foreach($keys as $key) {
-					$config->addConnection($key, $connections[$key]);
-				}
 			} else {
-				foreach($connections as $key => $connection) {
-					$config->addConnection($key, $connection);
+				$keys = array_keys($connections);
+			}
+			
+			foreach($keys as $key) {
+				if(isset($app['spot.connections.default']) && $key === $app['spot.connections.default']) {
+					$default = true;
+				} else {
+					$default = false;
 				}
+				$config->addConnection($key, $connections[$key], $default);
 			}
 			
 			return $config;
