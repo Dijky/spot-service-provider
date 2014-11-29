@@ -1,0 +1,23 @@
+{
+	"name": "dijky/spot-service-provider",
+	"type": "library",
+	"description": "A Silex Service Provider for the Spot2 ORM",
+	"keywords": ["spot2", "silex", "orm"],
+	"homepage": "https://github.com/Dijky/spot-service-provider",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Lukas Schmalen",
+			"email": "dijky@outlook.de",
+			"homepage": "https://github.com/Dijky",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"silex/silex": "~1.0",
+		"vlucas/spot2": "~2.0"
+	}
+	"autoload": {
+		"psr-0": { "Dijky": "src/" }
+	}
+}
