@@ -65,3 +65,9 @@ It takes the following configuration values:
  - **spot.connections.default** (optional): Set this to the connection name that should be set as default. Unset with `null`.
  
 **Notice:** once the `spot` service is first accessed, changing `spot.config`, `spot.connections`, or `spot.connections.default` will have no effect on it.
+
+License
+-
+
+This software is provided under the *BSD 3-clause license*.  
+Refer to [LICENSE](./LICENSE) for the full license text.
