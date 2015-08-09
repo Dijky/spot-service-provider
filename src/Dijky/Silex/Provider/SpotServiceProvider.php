@@ -12,16 +12,16 @@ class SpotServiceProvider implements ServiceProviderInterface
 	public function register(Application $app)
 	{
 		$app['spot.connections.default'] = null;
-	
+
 		$app['spot'] = $app->share(function() use ($app) {
 			return new Spot\Locator($app['spot.config']);
 		});
-		
+
 		$app['spot.config'] = $app->share(function() use ($app) {
 			$config = new Spot\Config();
 			
 			$connections = $app['spot.connections'];
-			
+
 			// foreach does not work with a Pimple container
 			// like the one exposed by DoctrineServiceProvider
 			if($connections instanceof Pimple) {
@@ -44,5 +44,16 @@ class SpotServiceProvider implements ServiceProviderInterface
 	}
 	
 	public function boot(Application $app)
-	{}
+	{
+        //create a spot instance for every connection
+        $app['spots'] = function() use ($app) {
+            $spots = new Pimple();
+            foreach ($app['spot.connections']->keys() as $key){
+                $config = new Spot\Config();
+                $config->addConnection('con', $app['spot.connections'][$key], true);
+                $spots[$key] = new Spot\Locator($config);
+            }
+            return $spots;
+        };
+    }
 }
