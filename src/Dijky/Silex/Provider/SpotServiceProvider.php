@@ -9,18 +9,35 @@ use \Pimple;
 
 class SpotServiceProvider implements ServiceProviderInterface
 {
+	protected $servicePrefix;
+	
+	public function __construct($servicePrefix = null)
+	{
+		$servicePrefix = (string)$servicePrefix;
+		
+		if (strlen($servicePrefix)) {
+			$servicePrefix .= '.';
+		} else {
+			$servicePrefix = '';
+		}
+		
+		$this->servicePrefix = $servicePrefix;
+	}
+	
 	public function register(Application $app)
 	{
-		$app['spot.connections.default'] = null;
+		$servicePrefix = $this->servicePrefix;
+		
+		$app[$servicePrefix . 'spot.connections.default'] = null;
 	
-		$app['spot'] = $app->share(function() use ($app) {
-			return new Spot\Locator($app['spot.config']);
+		$app[$servicePrefix . 'spot'] = $app->share(function() use ($app, $servicePrefix) {
+			return new Spot\Locator($app[$servicePrefix . 'spot.config']);
 		});
 		
-		$app['spot.config'] = $app->share(function() use ($app) {
+		$app[$servicePrefix . 'spot.config'] = $app->share(function() use ($app, $servicePrefix) {
 			$config = new Spot\Config();
 			
-			$connections = $app['spot.connections'];
+			$connections = $app[$servicePrefix . 'spot.connections'];
 			
 			// foreach does not work with a Pimple container
 			// like the one exposed by DoctrineServiceProvider
@@ -31,7 +48,8 @@ class SpotServiceProvider implements ServiceProviderInterface
 			}
 			
 			foreach($keys as $key) {
-				if(isset($app['spot.connections.default']) && $key === $app['spot.connections.default']) {
+				if(isset($app[$servicePrefix . 'spot.connections.default'])
+					&& $key === $app[$servicePrefix . 'spot.connections.default']) {
 					$default = true;
 				} else {
 					$default = false;
