@@ -48,9 +48,16 @@ class SpotServiceProvider implements ServiceProviderInterface
         //create a spot instance for every connection
         $app['spots'] = function() use ($app) {
             $spots = new Pimple();
-            foreach ($app['spot.connections']->keys() as $key){
+
+			$connections = $app['spot.connections'];
+			if($connections instanceof Pimple) {
+				$keys = $connections->keys();
+			} else {
+				$keys = array_keys($connections);
+			}
+            foreach ($keys as $key){
                 $config = new Spot\Config();
-                $config->addConnection('con', $app['spot.connections'][$key], true);
+                $config->addConnection('con', $connections[$key], true);
                 $spots[$key] = new Spot\Locator($config);
             }
             return $spots;
