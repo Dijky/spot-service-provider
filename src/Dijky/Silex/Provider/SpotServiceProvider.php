@@ -37,7 +37,14 @@ class SpotServiceProvider implements ServiceProviderInterface
 		$app[$servicePrefix . 'spot.config'] = $app->share(function() use ($app, $servicePrefix) {
 			$config = new Spot\Config();
 			
-			$connections = $app[$servicePrefix . 'spot.connections'];
+			if (isset($app[$servicePrefix . 'spot.connections']))
+			{
+				$connections = $app[$servicePrefix . 'spot.connections'];
+			}
+			else
+			{
+				$connections = $app['spot.connections'];
+			}
 			
 			// foreach does not work with a Pimple container
 			// like the one exposed by DoctrineServiceProvider
