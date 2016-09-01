@@ -1,7 +1,7 @@
 spot-service-provider
 =====================
 
-`SpotServiceProvider` allows you to easily integrate the [Spot ORM](http://phpdatamapper.com/) with Silex.
+`SpotServiceProvider` allows you to easily integrate the [Spot ORM](http://phpdatamapper.com/) with Pimple 3.
 
 Installation
 -
@@ -15,7 +15,7 @@ or in your `composer.json`:
     {
       ...
       "require": {
-        "dijky/spot-service-provider": "dev-master"
+        "dijky/spot-service-provider": "~2.0"
       }
     }
 
@@ -27,14 +27,14 @@ Usage
 
 Register the `SpotServiceProvider` in your application bootstrap file:
 
-    $app->register(new Dijky\Silex\Provider\SpotServiceProvider(), array(
+    $app->register(new Dijky\Pimple\Provider\SpotServiceProvider(), array(
       'spot.connections' => array(
         'website' => '<dsn>',
         'forum' => '<dsn>'
       )
     ));
 
-You can add as many connections as you like. 
+You can add as many connections as you like.
 
 The service provider also takes connections already configured for `DoctrineServiceProvider`:
 
@@ -57,13 +57,13 @@ Services
 `SpotServiceProvider` exposes the following services:
 
  - **spot**: The `Spot\Locator` instance to use the Spot ORM.
- - **spot.config**: The `Spot\Config` instance to configure the ****spot**** service.
- 
+ - **spot.config**: The `Spot\Config` instance to configure the **spot** service.
+
 It takes the following configuration values:
 
  - **spot.connections**: Set this to a key-value array (or Pimple container) with connection names as keys and connection strings (DSNs) or instances of `Doctrine\DBAL\Connection` as values.
  - **spot.connections.default** (optional): Set this to the connection name that should be set as default. Unset with `null`.
- 
+
 **Notice:** once the `spot` service is first accessed, changing `spot.config`, `spot.connections`, or `spot.connections.default` will have no effect on it.
 
 License
@@ -71,3 +71,11 @@ License
 
 This software is provided under the *BSD 3-clause license*.  
 Refer to [LICENSE](./LICENSE) for the full license text.
+
+Changelog
+-
+
+### New in 2.0
+- Add support for Pimple 3 (incl. Silex 2)
+- [BC BREAK] Drop support for Silex 1.x / Pimple 1.x
+- [BC BREAK] Change namespace to `Dijky\Pimple\...` from `Dijky\Silex\...`

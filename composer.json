@@ -1,8 +1,8 @@
 {
 	"name": "dijky/spot-service-provider",
 	"type": "library",
-	"description": "A Silex Service Provider for the Spot2 ORM",
-	"keywords": ["spot2", "silex", "orm"],
+	"description": "A Pimple 3 ServiceProvider for the Spot2 ORM",
+	"keywords": ["spot2", "pimple", "orm"],
 	"homepage": "https://github.com/Dijky/spot-service-provider",
 	"license": "BSD-3-Clause",
 	"authors": [
@@ -14,7 +14,7 @@
 		}
 	],
 	"require": {
-		"silex/silex": "~1.0",
+		"pimple/pimple": "~3.0",
 		"vlucas/spot2": "~2.0"
 	},
 	"autoload": {
