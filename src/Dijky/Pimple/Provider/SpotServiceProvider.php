@@ -29,11 +29,11 @@ class SpotServiceProvider implements ServiceProviderInterface
 		$c[$servicePrefix . 'spot.connections.default'] = null;
 
 		$c[$servicePrefix . 'spot'] = function() use ($c, $servicePrefix) {
-			return new Spot\Locator($c[$servicePrefix . 'spot.config']);
+			return new \Spot\Locator($c[$servicePrefix . 'spot.config']);
 		};
 
 		$c[$servicePrefix . 'spot.config'] = function() use ($c, $servicePrefix) {
-			$config = new Spot\Config();
+			$config = new \Spot\Config();
 
 			if (isset($c[$servicePrefix . 'spot.connections']))
 			{
